@@ -1,13 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from store.models import Product,OrderItem,Order
 
-
-def calculate():
-    x = 1
-    y = 2
-    return x
-
+# Create your views here.
 
 def say_hello(request):
-    x = calculate()
-    return render(request, 'hello.html')
+    # querset = Product.objects.select_related('collection').filter(collection__title='Beauty')
+    queryset = Order.objects.select_related('customer').order_by('-placed_at')[:5]
+    return render(request, 'hello.html',{'products':list(queryset)})
